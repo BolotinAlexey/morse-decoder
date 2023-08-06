@@ -38,36 +38,39 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-  return expr.split("**********").words.reduce(
-    (phrase, wordBin) =>
-      phrase +
-      " " +
-      wordBin
-        .split("")
-        .reduce(
-          (wordStr, num, i) => wordStr + ((i - 9) % 10 ? num : num + "|"),
-          ""
-        )
-        .slice(0, -1)
-        .split("|")
-        .map((el) =>
-          parseInt(el)
-            .toString()
-            .split("")
-            .reduce((a, b, index) => a + (index % 2 ? b + "|" : b), "")
-            .trim()
-            .split("|")
-            .reduce(
-              (a, b) => a + (b === "10" ? "." : b === "11" ? "-" : ""),
-              ""
-            )
-            .split(",")
-            .map((el) => MORSE_TABLE[el])
-            .join("")
-        )
-        .join(""),
-    ""
-  );
+  return expr
+    .split("**********")
+    .reduce(
+      (phrase, wordBin) =>
+        phrase +
+        " " +
+        wordBin
+          .split("")
+          .reduce(
+            (wordStr, num, i) => wordStr + ((i - 9) % 10 ? num : num + "|"),
+            ""
+          )
+          .slice(0, -1)
+          .split("|")
+          .map((el) =>
+            parseInt(el)
+              .toString()
+              .split("")
+              .reduce((a, b, index) => a + (index % 2 ? b + "|" : b), "")
+              .trim()
+              .split("|")
+              .reduce(
+                (a, b) => a + (b === "10" ? "." : b === "11" ? "-" : ""),
+                ""
+              )
+              .split(",")
+              .map((el) => MORSE_TABLE[el])
+              .join("")
+          )
+          .join(""),
+      ""
+    )
+    .trim();
 }
 
 module.exports = {
