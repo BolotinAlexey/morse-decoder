@@ -37,43 +37,5 @@ const MORSE_TABLE = {
   "-----": "0",
 };
 
-function decode(expr) {
-  return expr
-    .split("**********")
-    .reduce(
-      (phrase, wordBin) =>
-        phrase +
-        " " +
-        wordBin
-          .split("")
-          .reduce(
-            (wordStr, num, i) => wordStr + ((i - 9) % 10 ? num : num + "|"),
-            ""
-          )
-          .slice(0, -1)
-          .split("|")
-          .map((el) =>
-            parseInt(el)
-              .toString()
-              .split("")
-              .reduce((a, b, index) => a + (index % 2 ? b + "|" : b), "")
-              .trim()
-              .split("|")
-              .reduce(
-                (a, b) => a + (b === "10" ? "." : b === "11" ? "-" : ""),
-                ""
-              )
-              .split(",")
-              .map((el) => MORSE_TABLE[el])
-              .join("")
-          )
-          .join(""),
-      ""
-    )
-    .trim();
-}
 
-module.exports = {
-  decode,
-};
 // replace(/(^|\s)0/g, "")
